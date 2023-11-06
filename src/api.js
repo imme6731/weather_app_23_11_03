@@ -12,5 +12,7 @@ const instance = axios.create({
 export const getWeather = () => {
   const lat = 35.158049371114956;
   const lon = 129.05986219337697;
-  return instance.get(`weather?lat=${lat}&lon=${lon}`);
+  return instance
+    .get(`weather?lat=${lat}&lon=${lon}`)
+    .then((response) => response.data);
 };
