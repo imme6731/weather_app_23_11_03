@@ -7,6 +7,7 @@
 - [x] 경로 설정
 - [x] api 연결 설정
 - [x] axios, useQuery
-- [] UI 제작, helmet 설정
-- [] 현재 위치 얻어오기
-- [] 배포 (deploy)
+- [x] UI 제작, helmet 설정
+- [x] 로딩UI
+- [x] 현재 위치 얻어오기
+- [x] 배포 (deploy)

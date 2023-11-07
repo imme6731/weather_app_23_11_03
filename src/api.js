@@ -9,9 +9,9 @@ const instance = axios.create({
   },
 });
 
-export const getWeather = () => {
-  const lat = 35.158049371114956;
-  const lon = 129.05986219337697;
+export const getWeather = ({ queryKey }) => {
+  const [weather, lat, lon] = queryKey;
+  console.log(queryKey);
   return instance
     .get(`weather?lat=${lat}&lon=${lon}`)
     .then((response) => response.data);

@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWeather } from "../api";
 import { styled } from "styled-components";
+import { useCurrentWeather } from "../lib/useCurrentWeather";
+import { Loading } from "../components/Loading";
 
 const Wrap = styled.div`
   max-width: 400px;
@@ -73,48 +75,43 @@ const Con = styled.div`
 `;
 
 export const Home = () => {
+  const { lat, lon } = useCurrentWeather();
+  console.log(lat, lon);
+
   const { data, isLoading } = useQuery({
-    queryKey: ["weather"],
+    queryKey: ["weather", lat, lon],
     queryFn: getWeather,
   });
   // => api에 요청할 때 사용하는 hook
   // => 비동기 사용 시 상태관리하는 hook
   // => useQuery를 사용할 댄 반드시 QuetyClientProvider를 설정해줘야 함
 
-  console.log(data);
-
-  const {
-    name,
-    main: { temp, feels_like, temp_max, temp_min },
-    weather: {
-      0: { description },
-    },
-  } = data;
+  // console.log(data);
 
   return (
     <>
       {isLoading ? (
-        "loading"
+        <Loading />
       ) : (
         <Wrap>
-          <Location>{name}</Location>
-          <Temp>{Math.round(temp)}°</Temp>
-          <Desc>{description}</Desc>
+          <Location>{data?.name}</Location>
+          <Temp>{Math.round(data?.main?.temp)}°</Temp>
+          <Desc>{data?.main?.description}</Desc>
 
           <Separ></Separ>
 
           <ConWrap>
             <Con>
               <h3>체감온도</h3>
-              <p>{Math.round(feels_like)}°</p>
+              <p>{Math.round(data?.main?.feels_like)}°</p>
             </Con>
             <Con>
               <h3>최저 온도</h3>
-              <p>{Math.round(temp_min)}°</p>
+              <p>{Math.round(data?.main?.temp_min)}°</p>
             </Con>
             <Con>
               <h3>최고 온도</h3>
-              <p>{Math.round(temp_max)}°</p>
+              <p>{Math.round(data?.main?.temp_max)}°</p>
             </Con>
           </ConWrap>
         </Wrap>
